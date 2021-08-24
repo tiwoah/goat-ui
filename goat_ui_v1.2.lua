@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
--- version 1.2.4
+-- version 1.2.5
 local library = {gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
@@ -114,7 +114,7 @@ function DraggableObject:Disable()
 	end
 end
 
-local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCallback, CallbackFunction)
+local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, CallbackFunction)
 	local Active = false
 
 	local AP = Slider.AbsolutePosition
@@ -129,7 +129,7 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCa
 
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
-		SetCallback(Name, math.floor(Num))
+		library.SetCallback(Name, math.floor(Num))
 		CallbackFunction()
 	end)
 
@@ -148,7 +148,7 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCa
 		end
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
-		SetCallback(Name, math.floor(Num))
+		library.SetCallback(Name, math.floor(Num))
 		CallbackFunction()
 	end)
 
@@ -661,7 +661,7 @@ library.AddInfo = function(Page, Title, Info)
 	a.Parent = library.gui.BG.Pages[Page]
 end
 
-library.AddSlider = function(Page, Name, Min, Max, Value, CallbackFunction)
+library.AddSlider = function(Page, Title, Name, Min, Max, Value, CallbackFunction)
 	local a=Instance.new"Frame"
 	a.Name="Slider"
 	a.Size=UDim2.new(0,250,0,40)
@@ -733,7 +733,7 @@ library.AddSlider = function(Page, Name, Min, Max, Value, CallbackFunction)
 	
 	a.Parent = library.gui.BG.Pages[Page]
 	library.AddCallback(Name, Value)
-	MakeSlider(b, c, e, Name, Min, Max, Value, library.SetCallback, CallbackFunction)
+	MakeSlider(b, c, e, Name, Min, Max, Value, CallbackFunction)
 end
 
 local UserInputService = game:GetService("UserInputService")
