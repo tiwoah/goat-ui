@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
-local library = {version = "1.2.7", gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
+local library = {version = "1.2.8", gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
@@ -120,7 +120,7 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, Callb
 	local AS = Slider.AbsoluteSize
 
 	NumberTitle.Text = tostring(Value)
-	Bar.Size = UDim2.new(0, Value / (Max-Min) * AS.X, 1, 0)
+	Bar.Size = UDim2.new(0, Value / (Max-Min), 1, 0)
 
 	Slider.MouseButton1Down:Connect(function()
 		Active = true
@@ -726,7 +726,7 @@ library.AddSlider = function(Page, Title, Name, Min, Max, Value, CallbackFunctio
 	g.TextStrokeTransparency=0.9
 	g.TextSize=15
 	g.TextColor3=Color3.fromRGB(255,255,255)
-	g.Text=Name
+	g.Text=Title
 	g.TextWrap=true
 	g.Font=20
 	g.TextWrapped=true
