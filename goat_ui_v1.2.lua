@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
--- version 1.2.3
+-- version 1.2.4
 local library = {gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
@@ -129,7 +129,7 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCa
 
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
-		library.SetCallback(Name, math.floor(Num))
+		SetCallback(Name, math.floor(Num))
 		CallbackFunction()
 	end)
 
@@ -148,7 +148,7 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCa
 		end
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
-		library.SetCallback(Name, math.floor(Num))
+		SetCallback(Name, math.floor(Num))
 		CallbackFunction()
 	end)
 
