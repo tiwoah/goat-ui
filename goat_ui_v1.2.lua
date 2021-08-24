@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
--- version 1.2.1
+-- version 1.2.2
 local library = {gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
@@ -114,11 +114,13 @@ function DraggableObject:Disable()
 	end
 end
 
-local function MakeSlider(Slider, Bar, NumberTitle, Min, Max)
+local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, CallbackFunction)
 	local Active = false
 
 	local AP = Slider.AbsolutePosition
 	local AS = Slider.AbsoluteSize
+
+	library.AddCallback(Name, Value)
 
 	Slider.MouseButton1Down:Connect(function()
 		Active = true
@@ -129,6 +131,8 @@ local function MakeSlider(Slider, Bar, NumberTitle, Min, Max)
 
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
+		library.SetCallback(Name, math.floor(Num))
+		CallbackFunction()
 	end)
 
 	Mouse.Move:Connect(function()
@@ -146,6 +150,8 @@ local function MakeSlider(Slider, Bar, NumberTitle, Min, Max)
 		end
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
 		NumberTitle.Text = tostring(math.floor(Num))
+		library.SetCallback(Name, math.floor(Num))
+		CallbackFunction()
 	end)
 
 	UserInputService.InputEnded:Connect(function(Input)
@@ -657,7 +663,7 @@ library.AddInfo = function(Page, Title, Info)
 	a.Parent = library.gui.BG.Pages[Page]
 end
 
-library.AddSlider = function(Page, Title, Min, Max)
+library.AddSlider = function(Page, Name, Min, Max, Value, CallbackFunction)
 	local a=Instance.new"Frame"
 	a.Name="Slider"
 	a.Size=UDim2.new(0,250,0,40)
@@ -720,7 +726,7 @@ library.AddSlider = function(Page, Title, Min, Max)
 	g.TextStrokeTransparency=0.9
 	g.TextSize=15
 	g.TextColor3=Color3.fromRGB(255,255,255)
-	g.Text=Title
+	g.Text=Name
 	g.TextWrap=true
 	g.Font=20
 	g.TextWrapped=true
@@ -728,7 +734,7 @@ library.AddSlider = function(Page, Title, Min, Max)
 	g.Parent=a
 	
 	a.Parent = library.gui.BG.Pages[Page]
-	MakeSlider(b, c, e, Min, Max)
+	MakeSlider(b, c, e, Name, Min, Max, Value, CallbackFunction)
 end
 
 local UserInputService = game:GetService("UserInputService")
