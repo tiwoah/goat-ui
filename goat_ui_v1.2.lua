@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
-local library = {version = "1.2.6", gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
+local library = {version = "1.2.7", gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
 local Mouse = Player:GetMouse()
@@ -115,13 +115,13 @@ end
 
 local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, CallbackFunction)
 	local Active = false
-	
+
 	local AP = Slider.AbsolutePosition
 	local AS = Slider.AbsoluteSize
 
 	NumberTitle.Text = tostring(Value)
-	Bar.Size = UDim2.new(0, Value / Max * AS.X, 1, 0)
-	
+	Bar.Size = UDim2.new(0, Value / (Max-Min) * AS.X, 1, 0)
+
 	Slider.MouseButton1Down:Connect(function()
 		Active = true
 		AP = Slider.AbsolutePosition
@@ -147,11 +147,11 @@ local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, Callb
 			else -- behind
 				Bar.Size = UDim2.new(0, 0, 1, 0)
 			end
+			local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
+			NumberTitle.Text = tostring(math.floor(Num))
+			library.SetCallback(Name, math.floor(Num))
+			CallbackFunction()
 		end
-		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
-		NumberTitle.Text = tostring(math.floor(Num))
-		library.SetCallback(Name, math.floor(Num))
-		CallbackFunction()
 	end)
 
 	UserInputService.InputEnded:Connect(function(Input)
