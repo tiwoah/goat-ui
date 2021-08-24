@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
--- version 1.2.2
+-- version 1.2.3
 local library = {gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
@@ -114,13 +114,11 @@ function DraggableObject:Disable()
 	end
 end
 
-local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, CallbackFunction)
+local function MakeSlider(Slider, Bar, NumberTitle, Name, Min, Max, Value, SetCallback, CallbackFunction)
 	local Active = false
 
 	local AP = Slider.AbsolutePosition
 	local AS = Slider.AbsoluteSize
-
-	library.AddCallback(Name, Value)
 
 	Slider.MouseButton1Down:Connect(function()
 		Active = true
@@ -734,7 +732,8 @@ library.AddSlider = function(Page, Name, Min, Max, Value, CallbackFunction)
 	g.Parent=a
 	
 	a.Parent = library.gui.BG.Pages[Page]
-	MakeSlider(b, c, e, Name, Min, Max, Value, CallbackFunction)
+	library.AddCallback(Name, Value)
+	MakeSlider(b, c, e, Name, Min, Max, Value, library.SetCallback, CallbackFunction)
 end
 
 local UserInputService = game:GetService("UserInputService")
