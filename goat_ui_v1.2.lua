@@ -1,5 +1,5 @@
 -- Tim, August 16, 17, 18, 23, 24 2021
--- version 1.2
+-- version 1.2.1
 local library = {gui = nil, toggled = true, togglekey = Enum.KeyCode.Backquote, callback = nil, theme = "dark"}
 
 local Player = game.Players.LocalPlayer
@@ -122,6 +122,9 @@ local function MakeSlider(Slider, Bar, NumberTitle, Min, Max)
 
 	Slider.MouseButton1Down:Connect(function()
 		Active = true
+		AP = Slider.AbsolutePosition
+		AS = Slider.AbsoluteSize
+
 		Bar.Size = UDim2.new(0, (Mouse.X - AP.X), 1, 0)
 
 		local Num = Min + Bar.Size.X.Offset / AS.X * (Max-Min)
@@ -129,6 +132,8 @@ local function MakeSlider(Slider, Bar, NumberTitle, Min, Max)
 	end)
 
 	Mouse.Move:Connect(function()
+		AP = Slider.AbsolutePosition
+		AS = Slider.AbsoluteSize
 		if Active then
 			if Mouse.X >= AP.X then -- infront
 				Bar.Size = UDim2.new(0, (Mouse.X - AP.X), 1, 0)
